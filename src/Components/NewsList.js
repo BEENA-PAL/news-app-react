@@ -14,11 +14,11 @@ const NewsList = (props) => {
   if (loading) {
     return (
       <div
-        class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full "
+        className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full "
         role="status"
         aria-label="loading"
       >
-        <span class="sr-only">Loading...</span>
+        <span className="sr-only">Loading...</span>
       </div>
     );
   }
@@ -28,25 +28,27 @@ const NewsList = (props) => {
   }
 
   // Filter out articles with content value of "removed"
-  const filteredNewsData = newsData.filter(
+  const filteredNewsData = newsData?.filter(
     (article) =>
       article.title !== "[Removed]" &&
       article.content !== "[Removed]" &&
       article.description !== "[Removed]"
   );
 
-  const totalArticles = filteredNewsData.length;
+  const totalArticles = filteredNewsData ? filteredNewsData.length : 0;
   const totalPages = Math.ceil(totalArticles / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentArticles = filteredNewsData.slice(startIndex, endIndex);
+  const currentArticles = filteredNewsData
+    ? filteredNewsData.slice(startIndex, endIndex)
+    : [];
 
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentArticles?.map((article) => (
-          <div key={article.url} className="col-span-1">
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        {currentArticles?.map((article, index) => (
+          <div key={article.url} className="col-span-1  bg-red-500">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden h-96">
               <img
                 src={
                   article.image
